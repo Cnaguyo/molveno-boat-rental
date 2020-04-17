@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="/js/main_boat.js"></script>
+
+    <title>Boat</title>
+</head>
+<body>
+
+
+<!-- Modal -->
+<!--a modal to ask if you are sure with deleting the item-->
+<div class="modal" id="confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"  aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="title">Warning</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="yesBtn">Yes</button>
+                <button type="button" class="btn btn-primary" id="delete">No</button>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!-- modal for update boats -->
+<div id="updateModal" class="modal" tabindex="-1" role="dialog" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="updateModal-title">Update Boats Data</h5>
+                <button type="button" class="closeEdit" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+
+                        <input class="col-sm-10" type="number" id="boatEditMaxSeats" placeholder="Boat maxSeats" />
+                        <input class="col-sm-10" type="number" id="boatEditMinimumPrice" placeholder="Boat minimumPrice" />
+                        <input class="col-sm-10" type="number" id="boatEditActualPrice" placeholder="Boat actualPrice" />
+                        <input class="col-sm-10" type="number" id="boatEditIncome" placeholder="Boat income" />
+<!--                                                                       isAvailable-->
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="update" class="btn btn-primary">Save</button>
+                <button type="button" id="closeEditbtn" class="btn btn-secondary" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="mainContainer" style="max-width: 700px; align-items: center; justify-content: center; margin-left: 4rem;">
+    <div id="formContainer" style="max-width: 500px; align-items: center; padding: 2rem;">
+        <h1 style="text-align: center;" >
+            Molveno Boat Rental
+        </h1>
+
+        <form>
+            <h2 style="text-align: center; padding-top: 1rem;">Boat Form</h2>
+            <label for="boatTypeInput">boatType: </label>
+            <input type="number" placeholder="boatType" id="noOfperson" class="form-control-plaintext"/>
+            <button id="checkbtn"> Check for Boats </button>
+            <input type="text" placeholder="boatType" id="boatTypeInput" class="form-control-plaintext"/>
+            <label for="boatNumberInput">BoatNumber: </label>
+            <input type="number" placeholder="boatNumber" id="boatNumberInput" class="form-control-plaintext"/>
+            <label for="maxSeatsInput">MaxSeats: </label>
+            <input type="number" placeholder="maxSeats" id="maxSeatsInput" class="form-control-plaintext"/>
+            <label for="minimumPriceInput">MinimumPrice: </label>
+            <input type="number" placeholder="MinimumPrice" id="minimumPriceInput" class="form-control-plaintext"/>
+            <label for="actualPriceInput">ActualPrice: </label>
+            <input type="number" placeholder="ActualPrice" id="actualPriceInput" class="form-control-plaintext"/>
+            <label for="incomeInput">income: </label>
+            <input type="number" placeholder="Income" id="incomeInput" class="form-control-plaintext"/>
+<!--                         isAvailable-->
+
+            <br>
+            <button id="createBoatButton" type="button" class="btn btn-success btn-lg">Create Boat</button>
+        </form>
+    </div>
+
+    <!-- table container -->
+    <div class="table-container" style="align-items: center; max-width: 600px; justify-content: center; padding-top: 1 rem;">
+        <table class="table table-bordered table-hover table-primary" id="boatTable">
+            <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">boatType</th>
+                <th scope="col">MaxSeats</th>
+                <th scope="col">MinimumPrice</th>
+                <th scope="col">ActualPrice</th>
+                <th scope="col">IncomePrice</th>
+<!--                          isAvailable-->
+                <th> Delete </th>
+                <th> Update </th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+<!-- <div>
+    <button class="btn btn-primary" id="getBoats">create boat</button>
+    <button class="btn btn-primary" id="addBoat"> Delete boat</button>
+</div> -->
+</body>
+</html>

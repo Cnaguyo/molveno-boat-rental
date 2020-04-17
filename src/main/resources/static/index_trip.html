@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="/js/main_trip.js"></script>
+
+    <title>Trip</title>
+</head>
+<body>
+
+
+<!-- Modal -->
+<!--a modal to ask if you are sure with deleting the item-->
+<div class="modal" id="confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"  aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="title">Warning</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="yesBtn">Yes</button>
+                <button type="button" class="btn btn-primary" id="delete">No</button>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!-- modal for update items -->
+<div id="updateModal" class="modal" tabindex="-1" role="dialog" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="updateModal-title">Update Trips Data</h5>
+                <button type="button" class="closeEdit" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <input class="col-sm-10" type="number" id="tripEditDuration" placeholder="Trip duration" />
+                        <input class="col-sm-10" type="number" id="tripEditStart_time" placeholder="Trip start_time " />
+                        <input class="col-sm-10" type="number" id="tripEditEnd_time" placeholder="Trip end_time" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="update" class="btn btn-primary">Save</button>
+                <button type="button" id="closeEditbtn" class="btn btn-secondary" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="mainContainer" style="max-width: 700px; align-items: center; justify-content: center; margin-left: 4rem;">
+    <div id="formContainer" style="max-width: 500px; align-items: center; padding: 2rem;">
+        <h1 style="text-align: center;" >
+            Molveno Boat Rental
+        </h1>
+
+        <form>
+            <h2 style="text-align: center; padding-top: 1rem;">Trip Form</h2>
+            <label for="durationInput">Duration: </label>
+            <input type="text" placeholder="Duration" id="durationInput" class="form-control-plaintext"/>
+            <label for="start_timeInput">Start_time: </label>
+            <input type="d" placeholder="start_time" id="start_timeInput" class="form-control-plaintext"/>
+            <label for="end_timeInput">End_time: </label>
+            <input type="number" placeholder="End_time" id="end_timeInput" class="form-control-plaintext"/>
+            <label for="numOfPersonsInput">NumOfPersons: </label>
+            <input type="number" placeholder="numOfPersons" id="numOfPersonsInput" class="form-control-plaintext"/>
+            <label for="totalIncomeInput">TotalIncome: </label>
+            <input type="number" placeholder="totalIncome" id="totalIncomeInput" class="form-control-plaintext"/>
+            <button id="createTripButton" type="button" class="btn btn-success btn-lg">Create trip</button>
+        </form>
+    </div>
+
+    <!-- table container -->
+    <div class="table-container" style="align-items: center; max-width: 600px; justify-content: center; padding-top: 1 rem;">
+        <table class="table table-bordered table-hover table-primary" id="tripTable">
+            <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Start_time</th>
+                <th scope="col">End_time</th>
+                <th scope="col">numOfPersons</th>
+                <th scope="col">TotalIncome</th>
+                <th> Delete </th>
+                <th> Update </th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+<!-- <div>
+    <button class="btn btn-primary" id="getTrips">create trip</button>
+    <button class="btn btn-primary" id="addtrip"> Delete trip</button>
+</div> -->
+</body>
+</html>
