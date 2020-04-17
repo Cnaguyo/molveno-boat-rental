@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+<!--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+<!--    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script src="/js/main_boat.js"></script>
@@ -59,8 +59,6 @@
                         <input class="col-sm-10" type="number" id="boatEditMaxSeats" placeholder="Boat maxSeats" />
                         <input class="col-sm-10" type="number" id="boatEditMinimumPrice" placeholder="Boat minimumPrice" />
                         <input class="col-sm-10" type="number" id="boatEditActualPrice" placeholder="Boat actualPrice" />
-                        <input class="col-sm-10" type="number" id="boatEditIncome" placeholder="Boat income" />
-<!--                                                                       isAvailable-->
                     </div>
                 </form>
             </div>
@@ -84,7 +82,7 @@
             <h2 style="text-align: center; padding-top: 1rem;">Boat Form</h2>
             <label for="boatTypeInput">boatType: </label>
             <input type="number" placeholder="boatType" id="noOfperson" class="form-control-plaintext"/>
-            <button id="checkbtn"> Check for Boats </button>
+            <button id="checkbtn" type="button" class="btn btn-success btn-lg"> Check for Boats </button>
             <input type="text" placeholder="boatType" id="boatTypeInput" class="form-control-plaintext"/>
             <label for="boatNumberInput">BoatNumber: </label>
             <input type="number" placeholder="boatNumber" id="boatNumberInput" class="form-control-plaintext"/>
@@ -94,10 +92,6 @@
             <input type="number" placeholder="MinimumPrice" id="minimumPriceInput" class="form-control-plaintext"/>
             <label for="actualPriceInput">ActualPrice: </label>
             <input type="number" placeholder="ActualPrice" id="actualPriceInput" class="form-control-plaintext"/>
-            <label for="incomeInput">income: </label>
-            <input type="number" placeholder="Income" id="incomeInput" class="form-control-plaintext"/>
-<!--                         isAvailable-->
-
             <br>
             <button id="createBoatButton" type="button" class="btn btn-success btn-lg">Create Boat</button>
         </form>
@@ -107,14 +101,14 @@
     <div class="table-container" style="align-items: center; max-width: 600px; justify-content: center; padding-top: 1 rem;">
         <table class="table table-bordered table-hover table-primary" id="boatTable">
             <thead>
-            <tr>
+            <>
                 <th scope="col">id</th>
                 <th scope="col">boatType</th>
                 <th scope="col">MaxSeats</th>
+                <th scope="col">BoatNumber</th>
                 <th scope="col">MinimumPrice</th>
                 <th scope="col">ActualPrice</th>
-                <th scope="col">IncomePrice</th>
-<!--                          isAvailable-->
+                <th scope="col">IsAvailable</th>
                 <th> Delete </th>
                 <th> Update </th>
             </tr>

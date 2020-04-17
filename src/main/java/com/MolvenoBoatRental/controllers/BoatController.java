@@ -26,6 +26,7 @@ public class BoatController {
         if (existingBoat != null) {
             return "The boat number " + boat.getBoatNumber() + " already exists. Please set another number.";
         }
+        boat.setAvailable(true);
         boatRepository.save(boat);
         return "boat is created..";
     }

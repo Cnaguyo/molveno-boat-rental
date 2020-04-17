@@ -18,11 +18,12 @@ public class GuestController {
 
     @GetMapping
     public List<Guest> getGuests() {
-//        return GuestRepository.findAll();
-    }
-//    @GetMapping("/search")
-//    public Guest getGuest(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
-//        return guestRepository.findOneByFirstNameAndLastNameIgnoreCase(firstName, lastName);
+        return guestRepository.findAll();
+
+}
+////    @GetMapping("/search")
+////    public Guest getGuest(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
+////        return guestRepository.findOneByFirstNameAndLastNameIgnoreCase(firstName, lastName);
 
 
     @GetMapping("/{id}")
@@ -31,7 +32,7 @@ public class GuestController {
     }
     @PostMapping
     public Long addGuest(@RequestBody Guest guest) {
-        Guest existingGuest = guestRepository.findOneByGuestNameIgnoreCase(guest.getName());
+        Guest existingGuest = guestRepository.findOneByNameIgnoreCase(guest.getName());
         if (existingGuest!= null) {
             return existingGuest.getId();
 

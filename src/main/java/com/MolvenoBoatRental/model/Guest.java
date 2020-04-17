@@ -11,8 +11,8 @@ import java.util.List;
 
 @Entity
 public class Guest {
-//    d.	Phone number
-//9.	Show guest details at end of trip
+
+
     @Id
     @GeneratedValue
     private Long id;
@@ -21,7 +21,7 @@ public class Guest {
     private String idNumber;
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "Guest")
+    @OneToMany
     @JsonIgnore
     private List<Trip> trips = new ArrayList<>();
 

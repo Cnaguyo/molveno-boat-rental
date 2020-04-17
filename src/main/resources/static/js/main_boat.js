@@ -15,7 +15,7 @@ $(document).ready(function() {
       { data: 'boatNumber'},
       { data: 'minimumPrice'},
       { data: 'actualPrice'},
-      { data: 'isAvailable'},
+      { data: 'available'},
       {
         data: null,
         render: function(data, type, row) {
@@ -33,17 +33,8 @@ $(document).ready(function() {
 
   // add an event on the add boat button
   $('#createBoatButton').click(function(e) {
-        getBoats();
-//    if ($('#boatTypeInput').val() === '') i'm not sure
-//    {
-      alert('No boatType set');
-//    }
-//    else
-//    {
       addBoat();
     });
-//    e.preventDefault();
-//  });
 
 function getBoats() {
     $.get('api/boats', function(boats){
@@ -184,6 +175,32 @@ function updateBoats(boat_id) {
       alert('Invalid Input', 'error');
     }
   });
+}
+function usedBoats(boatId) {
+    var boat = {
+        boatType: $("#boatTypeEdit").val(),
+        maxSeats: Number($("#maxSeatsEdit").val()),
+        boatNumber: Number($("#boatNumberEdit").val()),
+        minimumPrice:Number($("#minimumPriceEdit").val()),
+        actualPrice: Number($("#actualPriceEdit").val()),
+        isAvailable: $("#isAvailableEdit").val()
+    };
+    var jsonObject = JSON.stringify(boat);
+
+    $.ajax({
+        url: "api/boats/" + boatId,
+        type: "PUT",
+        contentType: "application/json",
+        data: jsonObject,
+        success: function () {
+            alert('The boat has modified!');
+            //         $("#formEditboats").hide();
+            boatTable.ajax.reload();
+        },
+        error: function () {
+            alert('try again');
+        }
+    });
 }
 
 // delete boat function

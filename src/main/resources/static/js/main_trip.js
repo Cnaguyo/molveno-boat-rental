@@ -32,7 +32,7 @@ $(document).ready(function() {
 
   // add an event on the add boat button
   $('#createTripButton').click(function(e) {
-//    if ($('#tripDurationInput').val() === '') i'm not sure
+   if ($('#tripDurationInput').val() === '')
     {
       alert('No trip duration is set');
     }
@@ -58,16 +58,10 @@ $(document).ready(function() {
     $('#confirm').show();
     e.preventDefault();
   });
-//create a function for get boat
-function getBoats() {
-    $.get('api/boats', function(boats){
-        displayBoats(boats);
-    });
-}
 
-function getBoats() {
-    $.get('api/boats', function(boats){
-        displayBoats(boats);
+function getTrips() {
+    $.get('api/trips', function(trips){
+        console.log(trips);
     });
 }
   // an event when we click on the edit icon
