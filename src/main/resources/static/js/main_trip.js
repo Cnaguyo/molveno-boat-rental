@@ -1,204 +1,203 @@
 var trip_id;
 var tripDataTable;
+var returned_boats=0;
 
-$(document).ready(function() {
-  // defining a datatable table -- should be one time
-  tripDataTable = $('#tripTable').DataTable({
-    ajax: {
-      url: 'api/trips',
-      dataSrc: ''
-    },
-    columns: [
-      { data: 'id' },
-      { data: 'duration' },
-      { data: 'start_time'},
-      { data: 'end_time'},
-      { data: 'numOfPersons'},
-      { data: 'totalIncome'},
-      {
-        data: null,
-        render: function(data, type, row) {
-          return '<td><a href="#"><i class="fas fa-close" triptid="' + data.id + '"></i></a></td>';
-        }
-      },
-      {
-        data: null,
-        render: function(data, type, row) {
-          return '<td> <a href="#"> <i class="fas fa-edit" tripid="' + data.id + '"></i></a></td>';
-        }
-      }
-    ]
-  });
+$(document).ready(function () {
 
-  // add an event on the add boat button
-  $('#createTripButton').click(function(e) {
-   if ($('#tripDurationInput').val() === '')
-    {
-      alert('No trip duration is set');
-    }
-    else
-    {
-      addTrip();
-    }
-    e.preventDefault();
-  });
+$("#checkforBoats").click(function(){
+    returned_boats = $.ajax ({
+        url: 'api/boats/'+ Number($('#numOfPersons').val()), 
+       async: false, 
+       dataType: 'json', 
+    }).responseJSON;
 
-  // add an event on fetch trips button
-  $('#fetch').click(function(e) {
-    getTrips();
-    e.preventDefault();
-  });
-  $('#checkbtn').click(function(){
-    //get suitable boats
-  })
-
-  // an event when we click on the delete icon
-  $('#tripTable').on('click', '.fas.fa-close', function(e) {
-    trip_id = $(this).attr('tripid');
-    $('#confirm').show();
-    e.preventDefault();
-  });
-
-function getTrips() {
-    $.get('api/trips', function(trips){
-        console.log(trips);
-    });
-}
-  // an event when we click on the edit icon
-  $('#tripTable').on('click', '.fas.fa-edit', function() {
-    trip_id = $(this).attr('tripid');
-    const trip_duration = event.target.parentNode.parentElement.parentElement.children[1].innerHTML;
-    const trip_start_time = event.target.parentNode.parentElement.parentElement.children[2].innerHTML;
-    const trip_end_time= event.target.parentNode.parentElement.parentElement.children[3].innerHTML;
-    const trip_numOfPersons= event.target.parentNode.parentElement.parentElement.children[4].innerHTML;
-    const trip_totalIncome= event.target.parentNode.parentElement.parentElement.children[5].innerHTML;
-    $('#tripEditDuration').val(trip_duration);
-    $('#tripEditStart_time').val(trip_start_time);
-    $('#tripEditEnd_time').val(trip_end_time);
-    $('#tripEditNumOfPersons').val(trip_numOfPersons);
-    $('#tripEditTotalIncome').val(trip_totalIncome);
-    $('#updateModal').show();
-  });
-
-  // adding an event on the button of close Edit Modal
-  $('#closeEditbtn').click(function() {
-    $('#updateModal').hide();
-  });
-
-  // adding an event on the small button close of update modal
-  $('.closeEdit').click(function() {
-    $('#updateModal').hide();
-  });
-
-  // add an event on the update button of the update Modal
-  $('#update').click(function() {
-    updateTrips(trip_id);
-    $('#updateModal').hide();
-  });
-
-  // add an event on the yes button of the alert delete Modal
-  $('#yesBtn').click(function() {
-    deleteTrips(trip_id);
-    $('#confirm').hide();
-  });
-  // adding an event on the small button close of confirm delete alert modal
-  $('.close').click(function() {
-    $('#confirm').hide();
-  });
-  // adding an event on the close button of confirm delete modal
-  $('#delete').click(function() {
-    $('#confirm').hide();
-  });
+    $("#returnedBoatno").text('');
+    console.log(returned_boats.id);
+    $("#returnedBoatno").append(returned_boats.id);
 });
 
-// Add trip function
-function addTrip() {
-  var trip  = {
-    trip_duration: $('#durationInput').val(),
-    start_time: Number($('#start_timeInput').val()),
-    end_time: Number($('#end_timeInput').val()),
-    numOfPersons: Number($('#numOfPersonsInput').val()),
-    totalIncome: Number($('#atotalIncomeInput').val()),
+    $('#createTripButton').click(function () {
+        createTrip();
+      //  $('#tripCreatePop').modal("show");
+        // $('#CreatetripDurationInput').val('');
+        // $('#CreatetripStart_timeInput').val('');
+        // $('#CreatetripEnd_timeInput').val('');
+        // $('#CreatetripNumOfPersonsInput').val('');
+        // $('#CreatetripTotalPriceInput').val('');
+        // $('#CreatetripTripEndedInput').val('');
+    });
 
-  };
-  var jsonObject = JSON.stringify(trip);
-  $.ajax({
-    url: 'api/trips',
-    type: 'POST',
-    contentType: 'application/json',
-    data: jsonObject,
-    success: function() {
-      showAlert('A trip has been Added!', 'success');
-      getTrips();
-    },
-    error: function() {
-     // showAlert('');
-      alert('Invalid Input');
+    $('#savePop').click(createTrip);
+    getTrips();
+    $('#confirmDelete').click(removeTrip);
+    $('#editPop').click(createEditTrip);
+
+});
+
+
+
+
+function displayTrips(trips) {
+    var tripContainer = $('#tripContainer');
+    tripContainer.empty();
+    $.each(trips, function (index, trip) {
+        $('#tripContainer').append(' <tr><td> '
+         + trip.id + '  </td><td> ' + 
+         trip.start_time + '  </td><td> ' + trip.end_time + '  </td><td> '
+           + `${returned_boats.id}`+
+            '</td><td><button class="remove-button" tripId="' + trip.id + '">stop</button></td></tr>');
+    });
+
+    $('#tripContainer .remove-button').click(function () {
+        tripIdDelete = $(this).attr('tripId');
+
+        $('#AreYouSure').modal({ backdrop: 'static', keyboard: false });
+    });
+    
+    $('#tripContainer .edit-button').click(function () {
+        var tripData;
+
+
+        tripIdEdit = $(this).attr('tripId');
+
+        // $.ajax({
+        //     url: 'api/trips/'+ tripIdEdit,
+        //     type: "PUT",
+        //     data
+        // })
+
+         $.get('api/trips/' + tripIdEdit, function (trip) {
+
+             $('#tripEditPop').modal({ backdrop: 'static', keyboard: false });
+             $('#tripDurationInput').val(trip.duration);
+             $('#tripStart_timeInput').val(trip.start_time);
+             $('#tripEnd_timeInput').val(trip.end_time);
+             $('#tripNumOfPersonsInput').val(trip.numOfPersons);
+             $('#tripTotalPriceInput').val(trip.totalPrice);
+             $('#tripEndedInput').val(trip.tripEnded);
+
+
+         });
+    });
+
+}
+
+function postTrip(trip) {
+    var jsonTrip = JSON.stringify(trip);
+    $.ajax({
+        url: "api/trips",
+        type: "post",
+        contentType: "application/json",
+        data: jsonTrip,
+        success: function () {
+            alert('i created a new trip.');
+          //  $('#tripCreatePop').modal("hide");
+            getTrips();
+        },
+        error: function () {
+          //  $('#tripCreatePop').modal("hide");
+            alert(' oops..something is wrong!');
+        }
+    });
+}
+
+function createTrip() {
+    // var tripDuration = $('#CreatetripDurationInput').val();
+    // var tripStart_time = $('#CreatetripStart_timeInput').val();
+    // var tripEnd_time = $('#CreateTripEnd_timeInput').val();
+    // var tripNumOfPersons = $('#CreatetripNumOfPersonsInput').val();
+    // var tripTotalPrice = $('#CreatetripTotalPriceInput').val();
+    // var tripTripEnded = $('#CreatetripTripEndedInput').val();
+    // if (!tripDuration) {
+    //     $("#Duration is set").modal("show");
+    //     return;
+    // }
+    // if (tripDuration.length < 3) {
+    //     $("#durationSet").modal("show");
+    //     return;
+    // }
+    var trip = {
+        status:'ongoing',
+        boat: {
+            id:returned_boats.id,
+        },
+    };
+    postTrip(trip);
+}
+
+function removeTrip() {
+    var tripId = tripIdDelete;
+    $.ajax({
+        url: 'api/trips/' + tripId,
+        type: "DELETE",
+        success: function () {
+            getTrips();
+            $("#areYousure").modal("hide");
+
+        },
+        error: function () {
+            $("#areYouSure").modal("hide");
+            alert('You can not delete a trip ..');
+        }
+
+    });
+
+}
+
+function editTrip(trip) {
+    var jsonTrip = JSON.stringify(trip);
+    $.ajax({
+        url: 'api/trips/' + tripIdEdit,
+        type: 'PUT',
+        contentType: "application/json",
+        data: jsonTrip,
+        success: function () {
+            alert('you edited the trip.');
+            getTrips();
+            $("#tripEditPop").modal("hide");
+        },
+        error: function () {
+            $("#tripEditPop").modal("hide");
+            alert('oops..something is wrong.' + tripIdEdit);
+        }
+    });
+}
+
+function createEditTrip() {
+
+    var tripDuration= $('#tripDurationInput').val();
+    var tripStart_time = $('#TripStart_timeIdTypeInput').val();
+    var tripEnd_time = $('#tripEnd_timeInput').val();
+    var tripNumOfPersons = $('#tripNumOfPersonsInput').val();
+    if (!tripDuration) {
+        $("#noDuration").modal("show");
+        return;
     }
-  });
-}
+    if (tripDuration.length < 3) {
+        $("#tooShort").modal("show");
+        return;
 
-// get trip function
-function getTrips() {
-  boatDataTable.ajax.reload();
-}
 
-// update trip function
-function updateTrips(trip_id) {
-  var boat = {
-    id: trip_id,
-    duration: $('#tripEditDuration').val(),
-    start_time: Number($('#tripEditStart_time').val()),
-    end_time: Number($('#tripEditEnd_time').val()),
-    numOfPersons: Number($('#tripEditNumOfPersons').val()),
-    totalIncome: Number($('#tripEditTotalIncome').val())
-
-  };
-
-  var jsonObject = JSON.stringify(trip);
-  $.ajax({
-    url: 'api/trips/' + trip_id,
-    type: 'PUT',
-    contentType: 'application/json',
-    data: jsonObject,
-    success: function() {
-      alert('There has been an update!', 'success');
-      getTrips();
-    },
-    error: function() {
-      alert('Invalid Input', 'error');
     }
-  });
+    var trip = {
+        duration: tripDuration,
+        start_time: tripStart_time,
+        end_time: tripEnd_time,
+        totalPrice: tripTotalPrice
+    };
+    editTrip(trip);
 }
-
-// delete trip function
-function deleteTrips(trip_id) {
-  $.ajax({
-    url: 'api/trips/' + trip_id,
-    type: 'DELETE',
-    success: function() {
-     alert('A trip has  been deleted!');
-      getTrips();
-    },
-    error: function() {
-      alert('Invalid input!');
+  
+  
+  
+  function getTrips() {
+        $.get('api/trips', function (trips) {
+            displayTrips(trips);
+            tripDataTable.ajax.reload();
+                    console.log(trips);
+        });
     }
-  });
-}
 
-// show alert function
-function showAlert(msg, myclass) {
-  if (myclass === 'error') {
-    $('.modal-title').html('');
-    $('.modal-title').html('Error');
-    $('#error').show();
-    $('#message').text('');
-    $('#message').append(msg);
-  } else {
-    $('.modal-title').html('');
-    $('.modal-title').html('Success');
-    $('#error').show();
-    $('#message').text('');
-    $('#message').append(msg);
-  }
-}
+
+
+

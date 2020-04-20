@@ -10,13 +10,14 @@ public class Trip {
     @Id
     @GeneratedValue
     private Long id;
-    private double duration=0;
+    private Long duration=0L;
 //    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDateTime start_time;
 //    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDateTime end_time;
-    private Integer numOfPersons;
-    private Integer totalIncome;
+    private Long totalPrice=0L;
+    private boolean tripEnded;
+    private String status;
 
     @ManyToOne
    // private List<Boat> boats = new ArrayList<>();
@@ -25,13 +26,22 @@ public class Trip {
     public Trip() {
     }
 
-    public Trip(double duration, LocalDateTime start_time, LocalDateTime end_time, Integer numOfPersons, Integer totalIncome) {
-        this.duration = duration;
+    public Trip(LocalDateTime start_time, String status) {
         this.start_time = start_time;
-        this.end_time = end_time;
-        this.numOfPersons = numOfPersons;
-        this.totalIncome = totalIncome;
+        this.status = status;
+    }
 
+    public Trip(boolean tripEnded) {
+        this.tripEnded = tripEnded;
+    }
+
+
+    public boolean isTripEnded() {
+        return tripEnded;
+    }
+
+    public void setTripEnded(boolean tripEnded) {
+        this.tripEnded = tripEnded;
     }
 
     public Long getId() {
@@ -42,11 +52,11 @@ public class Trip {
         this.id = id;
     }
 
-    public double getDuration() {
+    public Long getDuration() {
         return duration;
     }
 
-    public void setDuration(double duration) {
+    public void setDuration(Long duration) {
         this.duration = duration;
     }
 
@@ -66,21 +76,6 @@ public class Trip {
         this.end_time = end_time;
     }
 
-    public Integer getNumOfPersons() {
-        return numOfPersons;
-    }
-
-    public void setNumOfPersons(Integer numOfPersons) {
-        this.numOfPersons = numOfPersons;
-    }
-
-    public Integer getTotalIncome() {
-        return totalIncome;
-    }
-
-    public void setTotalIncome(Integer totalIncome) {
-        this.totalIncome = totalIncome;
-    }
 
 
     public Boat getBoat() {
@@ -89,5 +84,21 @@ public class Trip {
 
     public void setBoat(Boat boat) {
         this.boat = boat;
+    }
+
+    public Long getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Long totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

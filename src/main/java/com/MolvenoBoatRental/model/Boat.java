@@ -20,13 +20,17 @@ public class Boat {
         private  String boatNumber;
         private Integer minimumPrice;
         private Integer actualPrice;
-        private Boolean isAvailable;
+        private Boolean isAvailable = true;
 
         @OneToMany(mappedBy = "boat")
         @JsonIgnore
         private List<Trip> trips = new ArrayList<>();
 
         public Boat() {
+                // empty constructor for spring
+        }
+
+        public Boat(String aNull, int i, long l, int i1, int i2, String aTrue) {
         }
 
         public Boat(String boatType, Integer maxSeats, String boatNumber, Integer minimumPrice, Integer actualPrice, Boolean isAvailable, List<Trip> trips) {
@@ -103,4 +107,6 @@ public class Boat {
         public void setTrips(List<Trip> trips) {
                 this.trips = trips;
         }
+
+
 }

@@ -9,8 +9,8 @@ $(document).ready(function() {
       dataSrc: ''
     },
     columns: [
-      { data: 'id' },
-      { data: 'boatType' },
+      { data: 'id'},
+      { data: 'boatType'},
       { data: 'maxSeats'},
       { data: 'boatNumber'},
       { data: 'minimumPrice'},
@@ -19,7 +19,7 @@ $(document).ready(function() {
       {
         data: null,
         render: function(data, type, row) {
-          return '<td><button class="btn btn-primary" boatid="' + data.id + '"></button></td>';
+          return '<td><button class="btn btn-primary delete" boatid="' + data.id + '">Delete</button></td>';
         }
       },
       {
@@ -29,30 +29,30 @@ $(document).ready(function() {
         }
       }
     ]
+  
   });
 
-  // add an event on the add boat button
-  $('#createBoatButton').click(function(e) {
+
+  // an event when we click on the delete icon
+  $("#boatTable").on("click", "button.delete", function() {
+    console.log("delete button clicked");
+    boat_id = $(this).attr('boatid');
+    $('#confirm').show();
+    // e.preventDefault();
+  });
+
+    // add an event on the add boat button
+    $('#createBoatButton').click(function(e) {
       addBoat();
     });
+    
 
-function getBoats() {
-    $.get('api/boats', function(boats){
-//        displayBoats(boats);
-        console.log(boats);
-    });
   // add an event on fetch boats button
   $('#fetch').click(function(e) {
     getBoats();
     e.preventDefault();
-  });
 
-  // an event when we click on the delete icon
-  $('#boatTable').on('click', '.fas.fa-close', function(e) {
-    boat_id = $(this).attr('boatid');
-    $('#confirm').show();
-    e.preventDefault();
-  });
+    });
 
   // an event when we click on the edit icon
   $('#boatTable').on('click', '.fas.fa-edit', function() {
@@ -76,20 +76,7 @@ function getBoats() {
   $('#closeEditbtn').click(function() {
     $('#updateModal').hide();
   });
-  }
-
-  function displayBoats(boats) {
-       $('#boatHeadContainer').empty();
-       $('#boatBodyContainer').empty();
-
-       $('#boatHeadContainer').html("<b>Boats Table</b>");
-       $('#boatHeadContainer').append('<tr><th>Id</th><th>boatType</th><th>Actions</th></tr>');
-       $.each(boats, function(index, boat) {
-          $('#boatBodyContainer').append('<tr><td>' + boat.id + '</td><td>' +  boat.boatType +
-              '</td><td><button class = "remove-button" boatId = " ' + boat.id + ' " >Delete </button></td></tr>');
-       });
-       $("#boatBodyContainer .remove-button").click(removeBoat);
-  }
+  // }
 
 
   // adding an event on the small button close of update modal
@@ -116,13 +103,23 @@ function getBoats() {
   // adding an event on the close button of confirm delete modal
   $('#delete').click(function() {
     $('#confirm').hide();
-  });
+  });   
+  
 });
 
+
+
+function getBoats() {
+    $.get('api/boats', function(boats){
+//        displayBoats(boats);
+boatDataTable.ajax.reload();
+        console.log(boats);
+    });
+  }
 // Add boat function
 function addBoat() {
   var boat  = {
-    boat_boatType: $('#boatTypeInput').val(),
+    boatType: $('#selectboatTypeInput').val(),
     maxSeats: Number($('#maxSeatsInput').val()),
     boatNumber: Number($('#boatNumberInput').val()),
     minimumPrice: Number($('#minimumPriceInput').val()),
@@ -147,6 +144,18 @@ function addBoat() {
 }
 
 
+function displayBoats(boats) {
+       $('#boatHeadContainer').empty();
+       $('#boatBodyContainer').empty();
+
+       $('#boatHeadContainer').html("<b>Boats Table</b>");
+       $('#boatHeadContainer').append('<tr><th>Id</th><th>boatType</th><th>Actions</th></tr>');
+       $.each(boats, function(index, boat) {
+          $('#boatBodyContainer').append('<tr><td>' + boat.id + '</td><td>' +  boat.boatType +
+              '</td><td><button class = "remove-button" boatId = " ' + boat.id + ' " >Delete </button></td></tr>');
+       });
+       $("#boatBodyContainer .remove-button").click(removeBoat);
+  }
 
 // update boat function
 function updateBoats(boat_id) {
@@ -209,8 +218,9 @@ function deleteBoats(boat_id) {
     url: 'api/boats/' + boat_id,
     type: 'DELETE',
     success: function() {
+      boatDataTable.ajax.reload();
      alert('A boat has  been deleted!');
-      getBoats();
+      // getBoats();
     },
     error: function() {
       alert('Invalid input!');

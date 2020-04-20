@@ -46,12 +46,12 @@ public class BoatController {
     public Boat findSuitableBoats(@PathVariable Integer noOfPersons) {
           //  List<Boat> myList = new ArrayList<>();
             List<Boat> allBoats = boatRepository.findAll();
-            for(int i=0; i< allBoats.size();i++){
-                if(allBoats.get(i).getMaxSeats() >= noOfPersons) {
-                  //  myList.add(allBoats.get(i));
-                    return allBoats.get(i);
-                }
+        for (Boat allBoat : allBoats) {
+            if (allBoat.getMaxSeats() >= noOfPersons) {
+                //  myList.add(allBoats.get(i));
+                return allBoat;
             }
+        }
            return  null;
     }
 

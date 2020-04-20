@@ -24,5 +24,5 @@ public class TripResult {
     public void setPrice(long price) {
         this.price = price;
     }
-    // TODO: Craete getters, setters, and optionally a constructor.
+
 }

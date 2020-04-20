@@ -33,6 +33,9 @@ public class Guest {
         this.trips = trips;
     }
 
+    public Guest() {
+    }
+
     public Long getId() {
         return id;
     }
