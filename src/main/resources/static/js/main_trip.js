@@ -192,7 +192,7 @@ function createEditTrip() {
   
   function getTrips() {
         $.get('api/trips', function (trips) {
-            displayTrips(trips);
+//            displayTrips(trips);
             tripDataTable.ajax.reload();
                     console.log(trips);
         });
